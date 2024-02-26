@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8 zh-tw">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>兩個輸入欄位</title>
+    <style>
+        form {
+            max-width: 300px;
+            background-color: #fff;
+            border-radius: 5px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 16px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: #fff;
+            padding: 10px;
+            border: none; 
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+<table>
+<tr>
+    <td><label for="input1">字串 1：</label></td>
+    <td><input type="text" id="input1" name="input1" required></td>
+</tr>
+<tr>
+    <td><label for="input1">字串 2：</label></td>
+    <td><input type="text" id="input2" name="input2" required></td>
+</tr>
+<tr>
+	<td colspan="2" style="text-align: center;">
+    <p id="demo1" style="color: red;"></p>
+    </td>
+ </tr>
+</table>
+    <button type="button" onclick="submitForm()">確定</button>
+</body>
+<script>
+    function submitForm() {
+        var string1 = document.getElementById("input1").value;
+        var string2 = document.getElementById("input2").value;
+		crossStrings(string1, string2);
+    }
+	function crossStrings(str1, str2) {
+		let result = '';
+		const maxLength = Math.max(str1.length, str2.length);
+
+		for (let i = 0; i < maxLength; i++) {
+			if (i < str1.length) {
+				result += str1[i];
+			}
+			if (i < str2.length) {
+				result += str2[i];
+			}
+		}
+		document.getElementById("demo1").innerText = "结果：" + result;
+	}
+</script>
+</html>

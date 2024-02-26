@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>人員管理</title>
+	<style>
+    table {
+        border-collapse: collapse;
+        width: 50%;
+    }
+    th, td {
+        border: 1px solid #90EE90;
+        padding: 8px;
+        text-align: left;
+    }
+    th {
+        background-color: #90EE90;
+    }
+</style>
+</head>
+<body onload="initialPerson()">
+
+<label for="person">編號：</label>
+<input type="text" id="person" placeholder="輸入編號">
+
+<label for="personName">姓名：</label>
+<input type="text" id="personName" placeholder="輸入姓名">
+
+<label for="personGender">性別：</label>
+<input type="text" id="personGender" placeholder="輸入性別">
+
+
+<button onclick="addPerson()">新增資料</button>
+<p>
+<table id="personTable" border="1px">
+	<caption>測試表頭</caption>
+    <thead>
+        <tr>
+            <th>編號</th>
+            <th>姓名</th>
+			<th>性別</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        
+    </tbody>
+</table>
+
+<script>
+	const initialData = [
+        { person: "1", personName: "張三", personGender: "男" },
+        { person: "2", personName: "李四", personGender: "男" },
+        { person: "3", personName: "王五", personGender: "女" }
+		];
+	function initialPerson(){
+		const table = document.getElementById("personTable").getElementsByTagName('tbody')[0];
+		
+		for(let i = 0; i < initialData.length; i++){
+			const initlPerson = initialData[i];
+			const newRow = table.insertRow();
+
+			const cell1 = newRow.insertCell(0);
+			const cell2 = newRow.insertCell(1);
+			const cell3 = newRow.insertCell(2);
+			const cell4 = newRow.insertCell(3);
+			
+			cell1.innerHTML = initlPerson.person;
+			cell2.innerHTML = initlPerson.personName;
+			cell3.innerHTML = initlPerson.personGender;
+			cell4.innerHTML = '<button onclick="deleteRow(this)">刪除</button>';
+		}
+	}
+    function addPerson() {
+        const person = document.getElementById("person").value;
+        const personName = document.getElementById("personName").value;
+        const personGender = document.getElementById("personGender").value;
+
+        if (isDuplicate(person)) {
+            alert("編號重複，請輸入其他編號。");
+            return;
+        }
+
+        const table = document.getElementById("personTable").getElementsByTagName('tbody')[0];
+        const newRow = table.insertRow();
+
+        const cell1 = newRow.insertCell(0);
+        const cell2 = newRow.insertCell(1);
+        const cell3 = newRow.insertCell(2);
+        const cell4 = newRow.insertCell(3);
+
+        cell1.innerHTML = person;
+        cell2.innerHTML = personName;
+        cell3.innerHTML = personGender;
+        cell4.innerHTML = '<button onclick="deleteRow(this)">刪除</button>';
+
+
+        document.getElementById("person").value = "";
+        document.getElementById("personName").value = "";
+        document.getElementById("personGender").value = "";
+    }
+
+    function isDuplicate(person) {
+        const table = document.getElementById("personTable").getElementsByTagName('tbody')[0];
+        const rows = table.getElementsByTagName('tr');
+
+        for (let i = 0; i < rows.length; i++) {
+            const cell = rows[i].getElementsByTagName('td')[0];
+            if (cell.innerHTML === person) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    function deleteRow(button) {
+        const row = button.parentNode.parentNode;
+        row.parentNode.removeChild(row);
+    }
+</script>
+</body>
+</html>

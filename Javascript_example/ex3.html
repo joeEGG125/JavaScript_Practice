@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8 zh-tw">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用戶註冊驗證</title>
+    <style>
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        input {
+            width: 300px;
+            padding: 8px;
+            margin-bottom: 16px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: #fff;
+            padding: 10px;
+            border: none; 
+            border-radius: 5px;
+			cursor: pointer;
+        }
+		fieldset {
+		width: 1000px;
+		}
+		.error {
+            color: red;
+        }
+    </style>
+</head>
+<body onsubmit="return validateForm()">
+<form>
+<fieldset>
+<legend>注册:</legend>
+<div>
+	<label>用户名：</label>
+    <input type="text" id="username" name="username" required>
+	<span class="error" id="nameErr"></span>
+</div>
+<div>
+	<label>密碼：</label>
+    <input type="password" id="password" name="password" required>
+	<span class="error" id="passErr"></span>
+</div>
+<div>
+	<label>Email：</label>
+    <input type="email" id="email" name="mail" required>
+	<span class="error" id="emailErr"></span>
+</div>
+<div>
+	<label>手機號碼：</label>
+    <input type="text" id="number" name="number" required>
+	<span class="error" id="numErr"></span>
+</div>
+    <button type="submit" onclick="validateForm()">確定</button>
+	<span class="error" id="correct"></span>
+</fieldset>
+</form>
+</body>
+<script>
+	function validateForm(){
+		printErrMsg("nameErr","");
+		printErrMsg("passErr","");
+		printErrMsg("emailErr","");
+		printErrMsg("numErr","");
+		printErrMsg("correct","");
+		var username = document.getElementById("username").value;
+        var password = document.getElementById("password").value;
+        var email = document.getElementById("email").value;
+		var number = document.getElementById("number").value;
+		
+		var flag = true;
+		
+		if (username == "") {
+			printErrMsg("nameErr", "欄位不可為空");
+			flag = false;
+        }
+		else if(!/[a-zA-Z]/.test(username[0])){
+			printErrMsg("nameErr", "用戶名需為英文開頭");
+			flag = false;
+		}
+		else if (!/\w{6,18}/.test(username)){
+			printErrMsg("nameErr", "用戶名需為6~18英文數字組合,且英文開頭");
+			flag = false;
+		}
+		
+		
+		if (password == "") {
+			printErrMsg("passErr", "欄位不可為空");
+			flag = false;
+        }
+		else if ((/\d+/.test(password) && /[a-z]+/.test(password) && /[A-Z]+/.test(password) && /[a-zA-Z0-9]{6,18}/.test(password)) == false){
+			printErrMsg("passErr", "密碼需為6~18大小寫英文數字組合");
+			flag = false;
+		}
+		
+		
+		if (email == "") {
+			printErrMsg("emailErr", "欄位不可為空");
+			flag = false;
+        }
+		else if (!/^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$/.test(email)){
+			printErrMsg("emailErr", "email格式錯誤");
+			flag = false;
+		}
+		
+		
+		if (number == "") {
+			printErrMsg("numErr", "欄位不可為空");
+			flag = false;
+        }
+		else if(!/[0-9]{10}/.test(number)){
+			printErrMsg("numErr", "手機號碼格式錯誤");
+			flag = false;
+		}
+		
+		if(flag == true){
+			document.onLoad = alert('輸入規則正確，資料已送出');
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
+	
+	
+	function printErrMsg(elmId, errMsg){
+		document.getElementById(elmId).innerHTML = errMsg;
+	}
+</script>
+</html>
